@@ -1,0 +1,75 @@
+-----------------------------------------------------------------
+TEXT DEEP LEARNING ALGORITHM CODE
+Universite de Montreal - NetScale Team
+-----------------------------------------------------------------
+
+1. Overview
+-----------------------------------------------------------------
+
+This package proposes the text modality deep learning source code for
+the mid-phase evaluation. The deepANN folder contains a generic deep
+learning class, which requires the Theano library. The actual
+unsupervised training script and a configuration file defining
+hyperparameters values are located in the exp_scripts folder.
+
+
+2. 3rd Party Libraries
+-----------------------------------------------------------------
+
+In order to perform the training, you need to install Theano, and set
+its path into your PYTHONPATH.
+
+Instructions can be found at:
+http://deeplearning.net/software/theano/install.html
+
+The scripts also require python >= 2.5 and scipy >= 0.7.
+
+
+3. Deep Learning Algorithm 
+-----------------------------------------------------------------
+
+The class within the DeepANN folder is generic and allows to define
+different variants of deep neural networks.
+
+Yet, the experiment script 'exp_scripts/DARPAscript.py' solely employs a
+single kind of model. This is a stacked denoising-autoencoder
+trained in a greedy layer-wise fashion, with rectifier non-linearity
+for hidden units and sigmoid non-linearity for reconstruction units.
+
+The reconstruction cost is the cross-entropy. The noise applied to the
+input layer is a salt and pepper noise (i.e. masking some input
+features with zeros and creating some others with ones) termed
+'binomial_NLP' in the script, for deeper layers the noise is only zero
+masking (termed 'binomial' in the script).
+
+Each layer is trained using stochastic gradient descent over
+minibatches.  At each layer the model allows to define a L2
+regularization criterion on the weights, and a L1 sparsity criterion
+on the activations.
+
+
+4. Hyperparameters
+-----------------------------------------------------------------
+
+Saved_Model/DARPA.conf is the (commented) configuration
+file defining all hyperparameters needed for unsupervised training.
+
+
+5. Experiment Script
+-----------------------------------------------------------------
+
+exp_scripts/DARPAscript.py is the experiment script. Two functions of
+its functions will be used in the final evaluation package:
+
+***OpenTableSDAEexp(ConfigFile = None, SavePath = '.'):
+       This corresponds to the 'trainDLSystem' function of the BEP-v3.
+This function creates a model and trains it using the 'ConfigFile'
+hyperparameters (if no path is given it assumes 'DARPA.conf' is in the
+current directory).  It saves the final model in 'SavePath'.
+
+***createvecfile(PathLoad,PathData,depth,OutFile):
+       This corresponds to the 'DLsystem' function of the BEP-v3.
+This function creates the representation of the 'PathData' *.vec data
+file at a given depth ('depth') given the model saved in 'PathLoad'.
+The *.vec output file is saved in 'OutFile'.
+
