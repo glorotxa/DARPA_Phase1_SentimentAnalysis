@@ -33,11 +33,9 @@ different variants of deep neural networks.
 
 Yet, the experiment script 'exp_scripts/DARPAscript.py' solely employs a
 single kind of model. This is a stacked denoising-autoencoder
-trained in a greedy layer-wise fashion, with rectifier non-linearity
-for hidden units and sigmoid non-linearity for reconstruction units.
+trained in a greedy layer-wise fashion, with rectifier non-linearity.
 
-The reconstruction cost is the cross-entropy. The noise applied to the
-input layer is a salt and pepper noise (i.e. masking some input
+The noise applied to the input layer is a salt and pepper noise (i.e. masking some input
 features with zeros and creating some others with ones) termed
 'binomial_NLP' in the script, for deeper layers the noise is only zero
 masking (termed 'binomial' in the script).
