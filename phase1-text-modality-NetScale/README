@@ -72,7 +72,7 @@ This script generates 5 files (in the package root):
 
 Simply run:
 
-./script/pretraining.sh
+sh ./script/pretraining.sh
 
 
 5. New data representation file creation
@@ -80,7 +80,7 @@ Simply run:
 
 Simply run:
 
-./script/createrep.sh
+sh ./script/createrep.sh
 
 This script will create, in the package root, the small amazon 
 data representation file of to the 3rd layer of the system: 
@@ -91,7 +91,7 @@ data representation file of to the 3rd layer of the system:
 
 Simply run:
 
-./script/leaveoneout.sh
+sh ./script/leaveoneout.sh
 
 This script will do the complete leave-one-out evaluation on 1 core, in 
 order to save computation time you should parallelize the evaluation
@@ -129,7 +129,7 @@ result lists and averaging it).
     command correspond to your small amazon data file (without the .vec). 
 
 Then simply run in order:
-./script/pretraining.sh
-./script/createrep.sh
-./script/leaveoneout.sh
+sh ./script/pretraining.sh
+sh ./script/createrep.sh
+sh ./script/leaveoneout.sh
 
