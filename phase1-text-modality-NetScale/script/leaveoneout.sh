@@ -7,7 +7,7 @@ DATADIR=$PROJECTROOT
 
 export PYTHONPATH=$PROJECTROOT/DLmodel:$PYTHONPATH
 
-python $PROJECTROOT/src/LeaveOneOut.py $PROJECTROOT/preprocessed-smallamazon 3
+python $PROJECTROOT/src/LeaveOneOut.py $PROJECTROOT/preprocessed-smallamazon 
 
 cd $LAUNCHDIR
 

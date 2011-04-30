@@ -2,10 +2,10 @@
 set -e
 PROJECTROOT=`dirname $0`/..
 DATADIR=$PROJECTROOT
-#FULLAMAZONDIR=__path/to/your/"unprocessed"/folder__
-#SMALLAMAZONDIR=__path/to/your/"processed_acl"/folder__
-FULLAMAZONDIR=/u/glorotxa/sorted_data/
-SMALLAMAZONDIR=/u/glorotxa/processed_acl/
+FULLAMAZONDIR=__path/to/your/"unprocessed"/folder__
+SMALLAMAZONDIR=__path/to/your/"processed_acl"/folder__
+
+
 
 # Generate the data in our libsvm type files with the DICTSIZE
 # most frequent features (Note if DICTSIZE=0, the dictionary contains all the features)
