@@ -63,7 +63,6 @@ def LeaveOneOut(C,DataPath,depth,listtotest):
         print numpy.mean(res),numpy.std(res),i
     return numpy.mean(res),numpy.std(res)
 
-
 def LeaveOneOutCheap(C,DataPath,depth,listtotest):
     if depth!=0:
         TrainVectors = DataPath + '_DL%s.vec'%(depth)
@@ -72,7 +71,7 @@ def LeaveOneOutCheap(C,DataPath,depth,listtotest):
     TrainLabels = DataPath + '.lab'
     Data = loadTestDataset(0, TrainLabels, TrainVectors)
     res = []
-    n = len(Data[0])/100
+    n = len(Data[0])/20
     for i in range(len(Data[0])/n):
         prob = problem(Data[0][:n*i]+Data[0][n*(i+1):],Data[1][:n*i]+Data[1][n*(i+1):])
         param = '-c %s -s 1 -q -e 0.01'%C
