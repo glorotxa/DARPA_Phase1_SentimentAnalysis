@@ -1,0 +1,135 @@
+-----------------------------------------------------------------
+TEXT MODALITY PACKAGE
+Universite de Montreal - NetScale Team
+-----------------------------------------------------------------
+
+
+1. Overview
+-----------------------------------------------------------------
+
+This package proposes the complete pipeline from preprocessing,
+unsupervised deep learning, supervised learning to leave-one-out evaluation
+for the text modality.
+
+The architecture of the package is the following:
+
+- src/ : contains python scripts to preprocess the data, train
+             the classifier and run the evaluation protocol.
+- lib/ : contains the Liblinear library sources.
+- DLmodel/ : contains the source code of the DL system. In Save_Model/ is
+             located the hyperparameters configuration file required
+             by the DL system (DARPA.conf)and are saved the DL models and
+             representations after training.
+- script/ : contains shell scripts to install the libraries, preprocess
+             the data and run the evaluation protocol.
+
+This README details how to install this package and run the evaluation
+protocol. To do so, you will need first to install Liblinear locally. 
+Scripts are provided to configure and compile this library, and 
+instructions on how to compile it are in this document.
+
+
+2. 3rd Party Libraries
+-----------------------------------------------------------------
+
+Simply run:
+
+sh ./script/install-liblinear-locally.sh
+
+the DL source code requires other libraries. Please refer to
+/DLmodel/README for more details.
+
+
+3. Generating preprocessed data files
+-----------------------------------------------------------------
+
+In order to preprocess the data and create the appropriate files 
+for the learning scripts:
+
+*** you need first to download and untar the "unprocessed.tar.gz" 
+    and "processed_acl.tar.gz" original data from:
+        http://www.cs.jhu.edu/~mdredze/datasets/sentiment/
+*** Then you have to define the path to these folders in the 
+    shell script: script/preprocess-data.sh
+*** Finally run:
+        sh ./script/preprocess-data.sh
+
+This script generates 5 files (in the package root):
+- featDict.txt: the features dictionary. The word on the n-th line
+  corresponds to the feature n. The 2nd column gives the word count
+  of the word in the whole database.
+- preprocessed-{full/small}amazon.{vec/lab}: the small and full
+  amazon data files in the following format:
+     *.vec files are the preprocessed reviews written in a LibSVM
+      fashion without the labels. Each line corresponds to a review
+      where each non-zero feature is indicated with
+      <feature_index>:<feature_value>.
+     *.lab files contain the labels. Each line corresponds to a review
+      of the .vec file.
+
+4. Unsupervised training
+-----------------------------------------------------------------
+
+Simply run:
+
+./script/pretraining.sh
+
+
+5. New data representation file creation
+-----------------------------------------------------------------
+
+Simply run:
+
+./script/createrep.sh
+
+This script will create, in the package root, the small amazon 
+data representation file of to the 3rd layer of the system: 
+"preprocessed-smallamazon_DL3.vec"
+
+6. Leave-one-out evaluation
+-----------------------------------------------------------------
+
+Simply run:
+
+./script/leaveoneout.sh
+
+This script will do the complete leave-one-out evaluation on 1 core, in 
+order to save computation time you should parallelize the evaluation
+across many cores by using directly the python function:
+LeaveOneOut(DataPath,listtotest) (defined in src/LeaveOneOut.py).
+
+Datapath is the path to the original small amazon data you used
+(without the .vec).
+
+"listtotest" is a list of index to do the leave-one-out on (i.e. 
+with [0,1,2,3,4,5,6,7,8,9] the function will do the leave-one-out 
+validation on the first 10 samples and return the corresponding 
+10 binary classification results in a list), it is therefore 
+straightforward to parallelize the leave-one-out evaluation 
+by calling on different cores this function with non-overlapping
+list covering the entire 8000 samples (to finally concatenating the 
+result lists and averaging it).
+
+
+7. Do the complete evaluation with different input data
+-----------------------------------------------------------------
+
+*** You need first to create in the package root your own data files
+    corresponding to the full and small amazon in the .vec and .lab 
+    format (see 3. for details).
+*** Then you need to create a new folder in DLmodel/ and copy 
+    DLmodel/Saved_model/DARPA.conf (the hyperparameters file) in it.
+*** Modify script/pretraining.sh so that the first argument
+    of the command correspond to the path to your full amazon data
+    (without the .vec) and the second to the path of your new folder.
+*** Modify script/createrep.sh so that the first argument of the 
+    command correspond to your new folder and the second
+    to the path to your small amazon data file (without the .vec).
+*** Modify script/leaveoneout.sh so that the argument of the
+    command correspond to your small amazon data file (without the .vec). 
+
+Then simply run in order:
+./script/pretraining.sh
+./script/createrep.sh
+./script/leaveoneout.sh
+
