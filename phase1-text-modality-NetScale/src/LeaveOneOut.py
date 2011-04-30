@@ -95,7 +95,7 @@ def LeaveOneOut(DataPath,listtotest):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) <= 2:
+    if len(sys.argv) <= 1:
         print "Usage:", sys.argv[0], "DataPath"
         sys.exit(-1)
     
