@@ -55,7 +55,8 @@ def LeaveOneOut(DataPath,listtotest):
         param = '-c 0.0001 -s 1 -q -e 0.01'%C
         model = train(prob, param)
         preds, acc, probas = predict(Data[0][i:(i+1)], Data[1][i:(i+1)], model , '-b 0')
-        res+=[acc]
+        res+=[acc/100.]
+        print "Temporary result: Sample # %s current test accuracy: %s +/- %s"%(i,numpy.mean(res),numpy.std(res))
     return res
 
 
@@ -102,5 +103,7 @@ if __name__ == '__main__':
     DataPath = sys.argv[1]
     listtotest = list(numpy.arange(8000))
     res = LeaveOneOut(DataPath,listtotest)
-    print "Test accuracy",numpy.mean(res),"with std:",numpy.std(res)
+    print "---------------------------------"
+    print "Leave-one-out evaluation finished"
+    print "TEST ACCURACY: ",numpy.mean(res),"+/-",numpy.std(res)
     
