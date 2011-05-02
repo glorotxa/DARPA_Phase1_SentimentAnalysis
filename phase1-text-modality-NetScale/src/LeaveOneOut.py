@@ -52,7 +52,7 @@ def LeaveOneOut(DataPath,listtotest):
     res = []
     for i in listtotest:
         prob = problem(Data[0][:i]+Data[0][(i+1):],Data[1][:i]+Data[1][(i+1):])
-        param = '-c 0.0001 -s 1 -q -e 0.01'%C
+        param = '-c 0.0001 -s 1 -q -e 0.01'
         model = train(prob, param)
         preds, acc, probas = predict(Data[0][i:(i+1)], Data[1][i:(i+1)], model , '-b 0')
         res+=[acc/100.]
