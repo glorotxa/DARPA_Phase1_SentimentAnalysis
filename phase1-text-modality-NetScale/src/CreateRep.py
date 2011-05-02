@@ -3,9 +3,7 @@ import os
 import sys
 
 import numpy
-
-from exp_scripts.DARPAscript import OpenTableSDAEexp, createvecfile
-from ClassifierSmartMemory import TrainAndOptimizeClassifer, Classifier, loadTrainDataset, loadTestDataset
+from exp_scripts.DARPAscript import createvecfile
 
         
 def CreateRep(ModelPath,DataPrefix):
