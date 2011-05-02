@@ -94,7 +94,7 @@ Simply run:
 sh ./script/leaveoneout.sh
 
 This script will do the complete leave-one-out evaluation on 1 core, in 
-order to save computation time you should parallelize the evaluation
+order to save computation time you can parallelize the evaluation
 across many cores by using directly the python function:
 LeaveOneOut(DataPath,listtotest) (defined in src/LeaveOneOut.py).
 
@@ -110,6 +110,10 @@ by calling on different cores this function with non-overlapping
 list covering the entire 8000 samples (to finally concatenating the 
 result lists and averaging it).
 
+Note: on our systems the 1 core leave-one-out evaluation takes 
+approximately 3 days and the pre-training 1 day. It should not be 
+necessary to parallelize the leave-one-out.
+
 
 7. Do the complete evaluation with different input data
 -----------------------------------------------------------------
@@ -118,7 +122,7 @@ result lists and averaging it).
     corresponding to the full and small amazon in the .vec and .lab 
     format (see 3. for details).
 *** Then you need to create a new folder in DLmodel/ and copy 
-    DLmodel/Saved_model/DARPA.conf (the hyperparameters file) in it.
+    DLmodel/Saved_Model/DARPA.conf (the hyperparameters file) in it.
 *** Modify script/pretraining.sh so that the first argument
     of the command correspond to the path to your full amazon data
     (without the .vec) and the second to the path of your new folder.
@@ -133,3 +137,15 @@ sh ./script/pretraining.sh
 sh ./script/createrep.sh
 sh ./script/leaveoneout.sh
 
+
+8. Evaluate with the DT's pre-trained model
+-----------------------------------------------------------------
+
+*** You need first to copy the folder /DLmodel/DTmodel/depth3
+    in /DLmodel/Saved_Model/ (Warning: if you already ran the 
+    pretraining script this will erase your saved model, make
+    sure to move your /DLmodel/Saved_Model/depth3 folder before).
+
+Then simply run in order:
+sh ./script/createrep.sh
+sh ./script/leaveoneout.sh
